@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -29,11 +31,12 @@ public class EtapaCultivoController {
         return service.listarTodas();
     }
     @PostMapping
-    public EtapaCultivo crear(@RequestBody @Valid CrearEtapaRequest request) {
-        return service.crear(
+    public ResponseEntity<EtapaCultivo> crear(@RequestBody @Valid CrearEtapaRequest request) {
+        EtapaCultivo etapa = service.crear(
                 request.getNombreEtapa(),
                 request.getFechaInicio(),
                 request.getFechaFin()
         );
+        return ResponseEntity.status(HttpStatus.CREATED).body(etapa);
     }
 }

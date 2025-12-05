@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Etapa de Cultivo</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 720px; margin: 32px auto; }
+        form { padding: 16px; border: 1px solid #ddd; border-radius: 8px; }
+        label { display: block; margin-top: 12px; font-weight: 600; }
+        input { width: 100%; padding: 8px; margin-top: 6px; }
+        button { margin-top: 16px; padding: 10px 16px; }
+        .ok { margin-top: 12px; color: #0a7; }
+        .error { margin-top: 12px; color: #c00; }
+    </style>
+</head>
+<body>
+<h1>Registrar Etapa de Cultivo</h1>
+
+<!-- Versión 1: POST clásico con form-urlencoded -->
+<form action="/api/etapas" method="post">
+    <label for="nombreEtapa">Nombre de la etapa</label>
+    <input type="text" id="nombreEtapa" name="nombreEtapa" required>
+
+    <label for="fechaInicio">Fecha inicio</label>
+    <input type="date" id="fechaInicio" name="fechaInicio" required>
+
+    <label for="fechaFin">Fecha fin</label>
+    <input type="date" id="fechaFin" name="fechaFin">
+
+    <button type="submit">Guardar</button>
+</form>
+
+<h2>Consultar etapas</h2>
+<p>
+    <a href="/api/etapas" target="_blank">Ver todas las etapas (GET)</a>
+</p>
+
+<hr>
+
+<!-- Versión 2 (opcional): Enviar JSON con fetch -->
+<h2>Registrar con JSON (fetch)</h2>
+<form id="jsonForm" onsubmit="enviarJSON(event)">
+    <label for="nombreEtapaJs">Nombre de la etapa</label>
+    <input type="text" id="nombreEtapaJs" required>
+
+    <label for="fechaInicioJs">Fecha inicio</label>
+    <input type="date" id="fechaInicioJs" required>
+
+    <label for="fechaFinJs">Fecha fin</label>
+    <input type="date" id="fechaFinJs">
+
+    <button type="submit">Guardar con JSON</button>
+    <div id="msg"></div>
+</form>
+
+<script>
+    async function enviarJSON(e) {
+        e.preventDefault();
+        const payload = {
+            nombreEtapa: document.getElementById('nombreEtapaJs').value,
+            fechaInicio: document.getElementById('fechaInicioJs').value,
+            fechaFin: document.getElementById('fechaFinJs').value || null
+        };
+        try {
+            const res = await fetch('/api/etapas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const msgEl = document.getElementById('msg');
+            if (res.ok) {
+                msgEl.textContent = 'Guardado correctamente';
+                msgEl.className = 'ok';
+            } else {
+                const txt = await res.text();
+                msgEl.textContent = 'Error: ' + txt;
+                msgEl.className = 'error';
+            }
+        } catch (err) {
+            const msgEl = document.getElementById('msg');
+            msgEl.textContent = 'Error de red: ' + err.message;
+            msgEl.className = 'error';
+        }
+    }
+</script>
+</body>
+</html>

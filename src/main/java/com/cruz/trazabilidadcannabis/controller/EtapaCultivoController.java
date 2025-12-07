@@ -1,9 +1,9 @@
-package com.cruz.trazabilidadcannabis.api;
+package com.cruz.trazabilidadcannabis.controller;
 
 import com.cruz.trazabilidadcannabis.domain.EtapaCultivo;
 import com.cruz.trazabilidadcannabis.service.EtapaCultivoService;
 import jakarta.validation.Valid;
-import com.cruz.trazabilidadcannabis.api.dto.CrearEtapaRequest;
+import com.cruz.trazabilidadcannabis.controller.dto.CrearEtapaRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @Tag(
         name = "Etapas de cultivo",
@@ -113,8 +114,26 @@ public class EtapaCultivoController {
     })
     @PostMapping(consumes = "application/x-www-form-urlencoded")
     public ResponseEntity<EtapaCultivo> crearDesdeFormulario(
+            @Parameter(
+                    description = "Nombre de la etapa",
+                    example = "Siembra",
+                    required = true
+            )
             @RequestParam String nombreEtapa,
+
+            @Parameter(
+                    description = "Fecha de inicio en formato yyyy-MM-dd",
+                    example = "2025-12-04",
+                    required = true
+            )
             @RequestParam String fechaInicio,
+
+            @Parameter(
+                    description = "Fecha de fin en formato yyyy-MM-dd (opcional)",
+                    example = "2025-12-20",
+                    required = false
+            )
+
             @RequestParam(required = false) String fechaFin
     ) {
         LocalDate inicio = LocalDate.parse(fechaInicio, DateTimeFormatter.ISO_DATE);
